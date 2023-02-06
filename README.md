@@ -3,6 +3,8 @@
 # About
 An example Dataform project which will use the publicly available [Movielens](https://grouplens.org/datasets/movielens/) dataset to demonstrate how to upload your product catalog and user events into the Google Cloud Retail API and train a personalized product recommendation model.
 
+This example extends on the tutorial found in the documentation [here](https://cloud.google.com/retail/docs/movie-rec-tutorial).
+
 # Prerequisites
 
 ## Google Cloud Project
