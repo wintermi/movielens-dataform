@@ -1,0 +1,17 @@
+config {
+  type: "table",
+  schema: dataform.config.vars.MOVIELENS_BASE_DATA,
+  description: "Contains one tag applied to one movie by one user",
+  assertions: {
+    uniqueKey: ["user_id", "movie_id", "tag"]
+  },
+  tags: ["TRANSFORM_MOVIELENS_DATA"]
+}
+
+
+SELECT
+    userId AS user_id
+  , movieId AS movie_id
+  , tag
+  , time
+FROM ${ ref({ schema: dataform.config.vars.MOVIELENS_RAW_DATA, name: "stg_user_tags" }) }

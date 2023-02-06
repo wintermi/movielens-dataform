@@ -1,0 +1,17 @@
+config {
+  type: "table",
+  schema: dataform.config.vars.MOVIELENS_BASE_DATA,
+  description: "Contains one rating of one movie by one user",
+  assertions: {
+    uniqueKey: ["user_id", "movie_id"]
+  },
+  tags: ["TRANSFORM_MOVIELENS_DATA"]
+}
+
+
+SELECT
+    userId AS user_id
+  , movieId AS movie_id
+  , rating
+  , time
+FROM ${ ref({ schema: dataform.config.vars.MOVIELENS_RAW_DATA, name: "stg_user_ratings" }) }

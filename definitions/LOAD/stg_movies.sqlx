@@ -1,0 +1,27 @@
+config {
+  hasOutput: true,
+  type: "operations",
+  schema: dataform.config.vars.MOVIELENS_RAW_DATA,
+  tags: ["LOAD_MOVIELENS_DATA"]
+}
+
+
+CREATE OR REPLACE TABLE ${ self() }
+(
+    movieId    INTEGER    NOT NULL
+  , title      STRING     NOT NULL
+  , genres     STRING     NOT NULL
+);
+
+
+LOAD DATA INTO ${ self() }
+FROM FILES (
+  format = "CSV",
+  field_delimiter = ",",
+  skip_leading_rows = 1,
+  allow_jagged_rows = true,
+  quote = "\"",
+  null_marker = "",
+  uris = ["gs://${ dataform.config.vars.MOVIELENS_GCS_BUCKET }/movies.csv"]
+);
+

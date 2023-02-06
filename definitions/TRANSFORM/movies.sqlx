@@ -1,0 +1,31 @@
+config {
+  type: "table",
+  schema: dataform.config.vars.MOVIELENS_BASE_DATA,
+  description: "Contains the detail for each movie, including genre",
+  assertions: {
+    uniqueKey: ["movie_id"]
+  },
+  tags: ["TRANSFORM_MOVIELENS_DATA"]
+}
+
+
+SELECT
+    m.movieId AS movie_id
+  , TRIM(REGEXP_REPLACE(m.title, r'([\(](\d*)[\)])$', '')) AS title
+  , CAST(REGEXP_EXTRACT(m.title, r'[\(](\d*)[\)]$') AS INTEGER) AS production_year
+  , IF(m.genres != "(no genres listed)", SPLIT(m.genres, "|"), []) AS categories
+  , g.genome_tags
+  , l.imdbId AS imdb_id
+  , l.tmdbId AS tmdb_id
+FROM ${ ref({ schema: dataform.config.vars.MOVIELENS_RAW_DATA, name: "stg_movies" }) } AS m
+  INNER JOIN ${ ref({ schema: dataform.config.vars.MOVIELENS_RAW_DATA, name: "stg_links" }) } AS l
+    ON  m.movieId = l.movieId
+  LEFT OUTER JOIN (SELECT
+                       s.movieId
+                     , ARRAY_AGG(STRUCT(t.tag, s.relevance) ORDER BY s.relevance DESC) AS genome_tags
+                   FROM ${ ref({ schema: dataform.config.vars.MOVIELENS_RAW_DATA, name: "stg_genome_scores" }) } AS s
+                     INNER JOIN ${ ref({ schema: dataform.config.vars.MOVIELENS_RAW_DATA, name: "stg_genome_tags" }) } AS t
+                       ON  s.tagId = t.tagId
+                   WHERE s.relevance > 0.8
+                   GROUP BY 1) AS g
+    ON  m.movieId = g.movieId
