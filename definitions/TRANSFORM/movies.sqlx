@@ -1,8 +1,8 @@
 config {
   type: "table",
   schema: dataform.config.vars.BASE_DATA,
-  description: "Contains the detail for each movie, including genre",
-  dependencies: [ "stg_movies_uniqueKey", "stg_links_uniqueKey", "stg_genome_scores_uniqueKey", "stg_genome_tags_uniqueKey"],
+  description: "Contains the details for each movie",
+  dependencies: [ "stg_movies_uniqueKey", "stg_links_uniqueKey", "stg_genome_scores_uniqueKey", "stg_genome_tags_uniqueKey", "stg_user_ratings_uniqueKey"],
   assertions: {
     uniqueKey: ["movie_id"]
   },
@@ -12,10 +12,13 @@ config {
 
 SELECT
     m.movieId AS movie_id
-  , TRIM(REGEXP_REPLACE(m.title, r'([\(](\d*)[\)])$', '')) AS title
-  , CAST(REGEXP_EXTRACT(m.title, r'[\(](\d*)[\)]$') AS INTEGER) AS production_year
+  , TRIM(REGEXP_REPLACE(m.title, r'[\(](\d+)[\)]\s*$', '')) AS title
+  , CAST(REGEXP_EXTRACT(m.title, r'[\(](\d+)[\)]\s*$') AS INTEGER) AS production_year
   , IF(m.genres = "(no genres listed)", [], SPLIT(m.genres, "|")) AS categories
-  , g.genome_tags
+  , IF(g.movieId IS NULL, [], g.genome_tags) AS genome_tags
+  , IF(ur.movieId IS NULL, [], [STRUCT("movielens" AS rating_source
+                                     , ur.rating AS rating_score
+                                     , ur.votes AS rating_count)]) AS aggregate_ratings
   , l.imdbId AS imdb_id
   , l.tmdbId AS tmdb_id
 FROM ${ ref({ schema: dataform.config.vars.RAW_DATA, name: "stg_movies" }) } AS m
@@ -36,3 +39,10 @@ FROM ${ ref({ schema: dataform.config.vars.RAW_DATA, name: "stg_movies" }) } AS 
                        ON  s.tagId = t.tagId
                    GROUP BY 1) AS g
     ON  m.movieId = g.movieId
+  LEFT OUTER JOIN (SELECT
+                       movieId
+                     , AVG(rating) AS rating
+                     , COUNT(DISTINCT userId) AS votes
+                   FROM ${ ref({ schema: dataform.config.vars.RAW_DATA, name: "stg_user_ratings" }) }
+                   GROUP BY 1) AS ur
+    ON  m.movieId = ur.movieId
