@@ -1,11 +1,12 @@
 config {
   type: "table",
-  schema: dataform.config.vars.MOVIELENS_BASE_DATA,
+  schema: dataform.config.vars.BASE_DATA,
   description: "Contains the detail for each movie, including genre",
+  dependencies: [ "stg_movies_uniqueKey", "stg_links_uniqueKey", "stg_genome_scores_uniqueKey", "stg_genome_tags_uniqueKey"],
   assertions: {
     uniqueKey: ["movie_id"]
   },
-  tags: ["TRANSFORM_MOVIELENS_DATA"]
+  tags: ["TRANSFORM_DATA"]
 }
 
 
@@ -17,14 +18,14 @@ SELECT
   , g.genome_tags
   , l.imdbId AS imdb_id
   , l.tmdbId AS tmdb_id
-FROM ${ ref({ schema: dataform.config.vars.MOVIELENS_RAW_DATA, name: "stg_movies" }) } AS m
-  INNER JOIN ${ ref({ schema: dataform.config.vars.MOVIELENS_RAW_DATA, name: "stg_links" }) } AS l
+FROM ${ ref({ schema: dataform.config.vars.RAW_DATA, name: "stg_movies" }) } AS m
+  INNER JOIN ${ ref({ schema: dataform.config.vars.RAW_DATA, name: "stg_links" }) } AS l
     ON  m.movieId = l.movieId
   LEFT OUTER JOIN (SELECT
                        s.movieId
                      , ARRAY_AGG(STRUCT(t.tag, s.relevance) ORDER BY s.relevance DESC) AS genome_tags
-                   FROM ${ ref({ schema: dataform.config.vars.MOVIELENS_RAW_DATA, name: "stg_genome_scores" }) } AS s
-                     INNER JOIN ${ ref({ schema: dataform.config.vars.MOVIELENS_RAW_DATA, name: "stg_genome_tags" }) } AS t
+                   FROM ${ ref({ schema: dataform.config.vars.RAW_DATA, name: "stg_genome_scores" }) } AS s
+                     INNER JOIN ${ ref({ schema: dataform.config.vars.RAW_DATA, name: "stg_genome_tags" }) } AS t
                        ON  s.tagId = t.tagId
                    WHERE s.relevance > 0.8
                    GROUP BY 1) AS g

@@ -5,8 +5,8 @@
   "defaultDatabase": "winter-dataform",
   "defaultLocation": "australia-southeast1",
   "vars": {
-    "MOVIELENS_GCS_BUCKET": "winter-data/movielens",
-    "MOVIELENS_RAW_DATA": "movielens_staging",
-    "MOVIELENS_BASE_DATA": "movielens"
+    "LOAD_GCS_BUCKET": "winter-data/movielens",
+    "RAW_DATA": "movielens_staging",
+    "BASE_DATA": "movielens"
   }
 }

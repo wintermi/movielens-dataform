@@ -1,0 +1,14 @@
+config {
+  type: "assertion",
+  tags: ["LOAD_ASSERTIONS"]
+}
+
+
+SELECT
+    userId
+  , movieId
+  , tag
+  , COUNT(*) AS index_row_count
+FROM ${ ref({ schema: dataform.config.vars.RAW_DATA, name: "stg_user_tags" }) }
+GROUP BY 1, 2, 3
+HAVING index_row_count > 1

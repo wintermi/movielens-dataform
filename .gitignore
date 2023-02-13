@@ -32,6 +32,7 @@ lerna-debug.log*
 
 # Dataform Credentials
 .df-credentials.json
+dataform-*.json
 *.old
 
 # Project Excludes

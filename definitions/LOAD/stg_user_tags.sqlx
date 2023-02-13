@@ -1,8 +1,8 @@
 config {
   hasOutput: true,
   type: "operations",
-  schema: dataform.config.vars.MOVIELENS_RAW_DATA,
-  tags: ["LOAD_MOVIELENS_DATA"]
+  schema: dataform.config.vars.RAW_DATA,
+  tags: ["LOAD_DATA"]
 }
 
 
@@ -23,6 +23,5 @@ FROM FILES (
   allow_jagged_rows = true,
   quote = "\"",
   null_marker = "",
-  uris = ["gs://${ dataform.config.vars.MOVIELENS_GCS_BUCKET }/tags.csv"]
+  uris = ["gs://${ dataform.config.vars.LOAD_GCS_BUCKET }/tags.csv"]
 );
-
