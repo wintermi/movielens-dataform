@@ -8,6 +8,6 @@ SELECT
     userId
   , movieId
   , COUNT(*) AS index_row_count
-FROM ${ ref({ schema: dataform.config.vars.RAW_DATA, name: "stg_user_ratings" }) }
+FROM ${ ref({ schema: dataform.projectConfig.vars.RAW_DATA, name: "stg_user_ratings" }) }
 GROUP BY 1, 2
 HAVING index_row_count > 1

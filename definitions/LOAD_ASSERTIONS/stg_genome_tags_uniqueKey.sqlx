@@ -7,6 +7,6 @@ config {
 SELECT
     tagId
   , COUNT(*) AS index_row_count
-FROM ${ ref({ schema: dataform.config.vars.RAW_DATA, name: "stg_genome_tags" }) }
+FROM ${ ref({ schema: dataform.projectConfig.vars.RAW_DATA, name: "stg_genome_tags" }) }
 GROUP BY 1
 HAVING index_row_count > 1

@@ -54,3 +54,31 @@ The Dataform service account requires a number of IAM roles with which to be abl
 7. Click Add another role, and then in the Select a role drop-down list, select the Storage Object Viewer role.
 8. Click Save.
 
+## DataForm Project Configuration
+
+The ```dataform.json``` contains the following parameters
+- ```defaultSchema```: Name of the BigQuery Dataset for which the Movielens tables are to be created
+- ```assertionSchema```: Name of the BigQuery Dataset for which any Dataform Assertions are to be executed and output
+- ```defaultDatabase```: The Project ID of your Google Cloud project, which you previously took note of
+- ```defaultLocation```: Target BigQuery Location
+- ```LOAD_GCS_BUCKET```: Name of the Google Cloud Storage Bucket, which you previously took note of
+- ```RAW_DATA```: Name of the BigQuery Dataset for which the Movielens data files are to be loaded
+- ```BASE_DATA```: Name of the BigQuery Dataset for which the final transformed Movielens tables are to be located
+
+Here is what an example configuration looks like
+```json
+{
+  "defaultSchema": "movielens",
+  "assertionSchema": "DF_ASSERTIONS",
+  "warehouse": "bigquery",
+  "defaultDatabase": "winter-dataform",
+  "defaultLocation": "australia-southeast1",
+  "vars": {
+    "LOAD_GCS_BUCKET": "winter-data/movielens",
+    "RAW_DATA": "movielens_staging",
+    "BASE_DATA": "movielens"
+  }
+}
+```
+
+

@@ -1,6 +1,6 @@
 config {
   type: "table",
-  schema: dataform.config.vars.BASE_DATA,
+  schema: dataform.projectConfig.vars.BASE_DATA,
   description: "Contains one tag applied to one movie by one user",
   dependencies: [ "stg_user_tags_uniqueKey"],
   assertions: {
@@ -15,4 +15,4 @@ SELECT
   , movieId AS movie_id
   , tag
   , time
-FROM ${ ref({ schema: dataform.config.vars.RAW_DATA, name: "stg_user_tags" }) }
+FROM ${ ref({ schema: dataform.projectConfig.vars.RAW_DATA, name: "stg_user_tags" }) }
