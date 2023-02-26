@@ -1,6 +1,6 @@
 {
   "name": "movielens-dataform-retail-recommendations",
   "dependencies": {
-    "@dataform/core": "^2.3.2"
+    "@dataform/core": "^2.4.2"
   }
 }
