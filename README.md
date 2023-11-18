@@ -1,9 +1,9 @@
-# **Movielens Recommendations Dataform Project**
+# **Movielens Dataform Project**
 
 # About
-An example Dataform project which will use the publicly available [Movielens](https://grouplens.org/datasets/movielens/) dataset to demonstrate how to upload your product catalog and user events into the Google Cloud Retail API or Google Cloud Discovery Engine and train a personalizsd product recommendation model.
+An example Dataform project to load and transform the publicly available dataset from [Movielens](https://grouplens.org/datasets/movielens/) into a format which can be imported into [Discovery for Media](https://cloud.google.com/discovery-engine/media/docs/introduction) or [Vertex AI Search and Conversation](https://cloud.google.com/generative-ai-app-builder/docs/introduction), allowing you to train a media recommendation model.
 
-This example extends on the tutorial found in the documentation [here](https://cloud.google.com/retail/docs/movie-rec-tutorial).
+This example extends on the tutorial found in the documentation [here](https://cloud.google.com/retail/docs/movie-rec-tutorial) and [here](https://cloud.google.com/discovery-engine/media/docs/movie-rec-tutorial).
 
 # Prerequisites
 
