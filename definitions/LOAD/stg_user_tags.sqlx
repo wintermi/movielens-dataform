@@ -6,16 +6,13 @@ config {
 }
 
 
-CREATE OR REPLACE TABLE ${ self() }
+LOAD DATA OVERWRITE ${ self() }
 (
     userId     INTEGER     NOT NULL
   , movieId    INTEGER     NOT NULL
   , tag        STRING      NOT NULL
   , time       TIMESTAMP   NOT NULL
-);
-
-
-LOAD DATA INTO ${ self() }
+)
 FROM FILES (
   format = "CSV",
   field_delimiter = ",",

@@ -6,14 +6,11 @@ config {
 }
 
 
-CREATE OR REPLACE TABLE ${ self() }
+LOAD DATA OVERWRITE ${ self() }
 (
     tagId      INTEGER    NOT NULL
   , tag        STRING     NOT NULL
-);
-
-
-LOAD DATA INTO ${ self() }
+)
 FROM FILES (
   format = "CSV",
   field_delimiter = ",",
