@@ -1,0 +1,9 @@
+dataformCoreVersion: 3.0.0-beta.4
+defaultProject: winter-dataform
+defaultLocation: australia-southeast1
+defaultDataset: movielens
+defaultAssertionDataset: movielens_assertions
+vars:
+    LOAD_GCS_BUCKET: winter-data/movielens
+    RAW_DATA: movielens_staging
+    TARGET_DATA: movielens

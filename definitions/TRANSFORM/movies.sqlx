@@ -1,6 +1,6 @@
 config {
   type: "table",
-  schema: dataform.projectConfig.vars.BASE_DATA,
+  schema: dataform.projectConfig.vars.TARGET_DATA,
   description: "Contains the details for each movie",
   dependencies: [ "stg_movies_uniqueKey", "stg_links_uniqueKey", "stg_genome_scores_uniqueKey", "stg_genome_tags_uniqueKey", "stg_user_ratings_uniqueKey"],
   assertions: {
